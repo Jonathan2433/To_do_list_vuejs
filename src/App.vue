@@ -22,17 +22,21 @@
         <button class="add-card-btn">Ajouter</button>
       </form>
     </div>
-    <card-list :cards="cards" @deleteCard="deleteCard" @editCard="editCard" />
+    <div class="card-list">
+      <div v-for="card in cards" :key="card.creationDate.getTime()">
+        <card :card="card" @deleteCard="deleteCard" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import CardList from './components/CardList.vue';
+import Card from './components/Card.vue';
 
 export default {
   name: 'HomePage',
   components: {
-    CardList,
+    Card,
   },
   data() {
     return {
@@ -60,13 +64,9 @@ export default {
     deleteCard(card) {
       this.cards.splice(this.cards.indexOf(card), 1);
     },
-    editCard(card) {
-      const index = this.cards.indexOf(card);
-      this.cards[index] = card;
-      this.cards[index].editDate = new Date();
-    },
   },
 };
+
 </script>
 
 <style scoped>
@@ -116,16 +116,20 @@ export default {
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0px 5px #00e6e6;
-  color: #000;
+  color: #fff;
   cursor: pointer;
   font-size: 16px;
   padding: 10px 20px;
-  transition: all 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .add-card-btn:hover {
-  background-color: #fff;
-  box-shadow: 0px 0px 10px #00e6e6;
-  color: #00e6e6;
+  background-color: #00cccc;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 </style>
